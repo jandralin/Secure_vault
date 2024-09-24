@@ -1,0 +1,42 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.server
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./server:/usr/src/app
+    environment:
+      DB_HOST: host.docker.internal  # Изменено с 'localhost' на 'db'
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: 1111
+      DB_NAME: secure_vault
+      SECRET_KEY: SECRET_KEY_RANDOM
+
+  db:  # Убедитесь, что имя сервиса для базы данных 'db'
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+      POSTGRES_DB: secure_vault
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile.front
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./front:/app/src
+      - ./public:/app/public
+    environment:
+      - NODE_ENV=development
+
+volumes:
+  pg_data:
