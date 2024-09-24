@@ -5,6 +5,9 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config();
 const crypto = require('crypto'); // Импортируем библиотеку для генерации соли
 
+
+
+
 const generateAccessToken = (id, role) => {
 	const payload = {
 		id,
@@ -47,9 +50,12 @@ class authController {
 		}
 	}
 
+
+
 	async login(req, res) {
 		try {
 			const { userName, password } = req.body
+			console.log(req.body); 
 			const user = await User.findOne({ where: { userName } })
 			if (!user) {
 				return res.status(400).json({ message: 'user not exists' })
@@ -59,17 +65,13 @@ class authController {
 			stribog(ctx, password + user.salt, password.length + user.salt.length);
 			const hashPassword = Buffer.from(ctx.h).toString('hex'); // Получаем хеш как hex строку
 
-			if (Buffer.compare(Buffer.from(hashPassword), Buffer.from(user.password)) === 0) {
-				const token = generateAccessToken(user._id, user.role)
-				return res.json({ token })
-			} else {
+			if (Buffer.compare(Buffer.from(hashPassword), Buffer.from(user.password)) !== 0) {
 				return res.status(400).json({ message: 'Incorrect password' });
 			}
 
-			// создание токена
+			const token = generateAccessToken(user._id, user.role)
 
-
-
+			return res.json({ token });
 		} catch (e) {
 			res.status(400).json({ message: 'login error' }); // Возвращаем ошибку
 		}
