@@ -13,10 +13,10 @@ router.get('/', roleMiddleware('ADMIN'), (req, res) => {
 router.post('/registration',
     roleMiddleware('ADMIN'), // Проверяем, что пользователь — админ
     [
-        check('userName', 'userName must not be empty')
+        check('email', 'email must not be empty')
             .trim()
             .notEmpty()
-            .withMessage('userName must not be empty or consist of whitespace'),
+            .withMessage('email must not be empty or consist of whitespace'),
 
         check('password', 'password must not be empty')
             .trim()

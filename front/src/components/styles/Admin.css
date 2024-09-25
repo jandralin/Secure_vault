@@ -1,0 +1,25 @@
+.admin-container {
+	width: 100vw;
+}
+
+.nav-link {
+	font-size: 1.2rem; /* Увеличение размера шрифта */
+	padding: 10px 15px; /* Увеличение отступов для nav-link */
+}
+
+.nav-item {
+	margin: 0 15px; /* Увеличение расстояния между элементами списка */
+}
+
+
+.header {
+	text-align: center;
+}
+.navbar {
+	margin-top: 20px;
+}
+#navbarNav {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
