@@ -1,35 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import './styles/Users.css'
+import './styles/Users.css'; // Импорт стилей
+import { fetchUsers } from './api/authAPI'; // Убедитесь, что путь к файлу правильный
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [users, setUsers] = useState([]); // Состояние для хранения пользователей
+  const [errorMessage, setErrorMessage] = useState(''); // Состояние для хранения сообщений об ошибках
 
   // Функция для получения списка пользователей с сервера
-  const fetchUsers = async () => {
-    try {
-      const token = localStorage.getItem('authToken'); // Получение токена авторизации
-      const response = await fetch('http://localhost:4000/admin/users', {
-        headers: {
-          'Authorization': `Bearer ${token}`, // Передача токена в заголовке
-        },
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        setUsers(data); // Устанавливаем список пользователей
-      } else {
-        setErrorMessage('Ошибка при получении пользователей');
-      }
+  const loadUsers = async () => {
+		try {
+		const token = localStorage.getItem('authToken'); // Получение токена авторизации
+		const usersData = await fetchUsers(token); // Используем fetchUsers для получения данных
+      
+      setUsers(usersData); // Устанавливаем список пользователей
     } catch (error) {
-      setErrorMessage('Ошибка соединения с сервером');
+      // Обработка ошибок
+      setErrorMessage(error.message || 'Ошибка при получении пользователей');
     }
   };
 
-  // Используем useEffect для загрузки данных при первом рендере компонента
+  // Используем useEffect для загрузки пользователей при монтировании компонента
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    loadUsers(); // Вызываем функцию загрузки
+  }, []); // Пустой массив зависимостей, чтобы вызов произошел только при монтировании
 
   return (
     <div className="user-container mt-5">
@@ -65,4 +58,4 @@ const Users = () => {
   );
 };
 
-export default Users
+export default Users;

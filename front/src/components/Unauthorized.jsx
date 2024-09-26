@@ -7,7 +7,7 @@ const Unauthorized = () => {
 	return (
 		<div className='un-contsiner'>  
 			<button className='btn btn-primary'
-			onClick={e => navigate('/crypto')}>RETURN
+			onClick={e => navigate('/login')}>RETURN
 			</button>Доступ запрещен. У вас нет прав для доступа к этой странице. 
 		</div>)
 };

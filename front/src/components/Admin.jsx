@@ -12,15 +12,15 @@ const Admin = () => {
 						<div className="collapse navbar-collapse" id="navbarNav">
 								<ul className="navbar-nav me-auto"> 
 										<li className="nav-item">
-												<Link to="registration" className="nav-link">Registration</Link>
+												<Link to="registration" className="nav-link">Регистрация</Link>
 										</li>
 										<li className="nav-item">
-												<Link to="users" className="nav-link">Users</Link>
+												<Link to="users" className="nav-link">Пользователи</Link>
 										</li>
 								</ul>
 								<ul className="navbar-nav ms-auto"> 
 										<li className="nav-item">
-												<Link to="/login" className="nav-link">Exit</Link>
+												<Link to="/login" className="nav-link">Выход</Link>
 										</li>
 								</ul>
 						</div>

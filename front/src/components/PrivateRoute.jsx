@@ -2,7 +2,7 @@ import React from 'react';
 import {jwtDecode} from 'jwt-decode'; // Исправляем импорт, убираем { }
 import { Navigate } from 'react-router-dom';
 
-const PrivateRoute = ({ element: Component, ...rest }) => {
+export const PrivateRoute = ({ element: Component, ...rest }) => {
     const token = localStorage.getItem('authToken');
     let isAdmin = false;
 
@@ -19,4 +19,10 @@ const PrivateRoute = ({ element: Component, ...rest }) => {
     return isAdmin ? <Component {...rest} /> : <Navigate to="/unauthorized" />;
 };
 
-export default PrivateRoute;
+export const AuthRoute = ({ element: Component, ...rest }) => {
+	const token = localStorage.getItem('authToken');
+	let isAuth = Boolean(token);
+
+	return isAuth ? <Component {...rest} /> : <Navigate to="/unauthorized" />;
+};
+
