@@ -6,7 +6,9 @@ require('dotenv').config();
 const crypto = require('crypto'); // Импортируем библиотеку для генерации соли
 
 
-
+function getRedirectUrlByRole(role) {
+	return role === 'ADMIN' ? '/admin' : '/crypto';
+}
 
 const generateAccessToken = (id, role) => {
 	const payload = {
@@ -24,8 +26,8 @@ class authController {
 			if (!errors.isEmpty()) {
 				return res.status(400).json({ message: 'errors', errors })
 			}
-			const { userName, password } = req.body
-			const candidate = await User.findOne({ where: { userName } })
+			const { email, password } = req.body
+			const candidate = await User.findOne({ where: { email } })
 			if (candidate) {
 				return res.status(400).json({ message: 'user already exists' })
 			}
@@ -38,7 +40,7 @@ class authController {
 			const hashPassword = Buffer.from(ctx1.h).toString('hex');
 			// создаем юзера
 			await User.create({
-				userName: userName,
+				email: email,
 				password: hashPassword,
 				salt: salt,
 				// role: 'ADMIN'
@@ -54,9 +56,9 @@ class authController {
 
 	async login(req, res) {
 		try {
-			const { userName, password } = req.body
+			const { email, password } = req.body
 			console.log(req.body); 
-			const user = await User.findOne({ where: { userName } })
+			const user = await User.findOne({ where: { email } })
 			if (!user) {
 				return res.status(400).json({ message: 'user not exists' })
 			}
@@ -70,8 +72,9 @@ class authController {
 			}
 
 			const token = generateAccessToken(user._id, user.role)
-
-			return res.json({ token });
+			const redirectUrl = getRedirectUrlByRole(user.role);
+      return res.json({ token, redirectUrl });
+			// return res.json({ token });
 		} catch (e) {
 			res.status(400).json({ message: 'login error' }); // Возвращаем ошибку
 		}
