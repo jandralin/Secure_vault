@@ -1,4 +1,4 @@
-export class Gost12_15 {
+class Gost12_15 {
 	constructor() {
 		// Полином x ^ 8 + x ^ 7 + x ^ 6 + x + 1
 		this.generating_polynom = 0xc3;
@@ -494,3 +494,5 @@ gamma_cryption(data, sync, round_keys) {
 
 
 }
+
+module.exports = Gost12_15

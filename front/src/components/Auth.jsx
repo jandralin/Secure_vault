@@ -56,8 +56,8 @@ const Auth = () => {
 			{successMessage && <div className="alert alert-success">{successMessage}</div>}
 			<form onSubmit={handleLogin}>
 				<div className="form-group">
-					<label htmlFor="email">Логин</label>
-					<input type="email" className="form-control" id="email" placeholder="Введите логин" required
+					<label htmlFor="email">Email</label>
+					<input type="email" className="form-control" id="email" placeholder="Введите email" required
 						value={email}
 						onChange={e => setEmail(e.target.value)} />
 				</div>

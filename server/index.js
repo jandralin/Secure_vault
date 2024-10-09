@@ -1,9 +1,13 @@
 const express = require('express')
 const userRouter = require('./routes/userRouter')
 const adminRouter = require('./routes/adminRouter')
+const cryptoRouter = require('./routes/cryptoRouter')
+// const EncryptionKey = require('./models/encryptionKeys');
+// const EncryptionAlgorithm = require('./models/encryptionAlgorithm');
+// const EncryptedText = require('./models/encryptedTexts');
 const sequelize = require('./database')
 require('dotenv').config();
-const authMiddleware = require('./middleware/authMiddleware')
+// const authMiddleware = require('./middleware/authMiddleware')
 const cors = require('cors');
 
 const PORT = process.env.PORT
@@ -24,6 +28,8 @@ app.use('/login', userRouter);
 
 // Маршруты для администратора
 app.use('/admin', adminRouter);
+
+app.use('/crypto', cryptoRouter); // Используем cryptoRouter
 
 // запуск
 const start = async () => {
