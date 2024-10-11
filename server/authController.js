@@ -12,7 +12,7 @@ function getRedirectUrlByRole(role) {
 
 const generateAccessToken = (id, role) => {
 	const payload = {
-		id,
+		userId: id, 
 		role
 	}
 	return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '24h' })
@@ -70,8 +70,7 @@ class authController {
 			if (Buffer.compare(Buffer.from(hashPassword), Buffer.from(user.password)) !== 0) {
 				return res.status(400).json({ message: 'Incorrect password' });
 			}
-
-			const token = generateAccessToken(user._id, user.role)
+			const token = generateAccessToken(user.id, user.role)
 			const redirectUrl = getRedirectUrlByRole(user.role);
       return res.json({ token, redirectUrl });
 			// return res.json({ token });

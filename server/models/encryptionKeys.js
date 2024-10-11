@@ -3,7 +3,7 @@ const sequelize = require('../database');
 const User = require('./user');
 const EncryptionAlgorithm = require('./encryptionAlgorithm');
 
-const EncryptionKey = sequelize.define('EncryptionKey', {
+const EncryptionKeys = sequelize.define('EncryptionKeys', {
   algorithmId: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -34,15 +34,15 @@ const EncryptionKey = sequelize.define('EncryptionKey', {
 });
 
 // Связь с пользователем
-EncryptionKey.belongsTo(User, {
+EncryptionKeys.belongsTo(User, {
   foreignKey: 'userId',
   as: 'user',
 });
 
 // Связь с алгоритмом
-EncryptionKey.belongsTo(EncryptionAlgorithm, {
+EncryptionKeys.belongsTo(EncryptionAlgorithm, {
   foreignKey: 'algorithmId',
   as: 'algorithm',
 });
 
-module.exports = EncryptionKey;
+module.exports = EncryptionKeys;
