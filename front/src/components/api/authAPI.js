@@ -45,3 +45,12 @@ export const fetchUsers = async (token) => {
     throw error.response ? error.response.data : new Error('Network Error'); // Обработка ошибок
   }
 };
+
+export const verifyCode = async (verificationData) => {
+  try {
+    const response = await api.post('/login/verify', verificationData);
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : new Error('Network Error');
+  }
+};

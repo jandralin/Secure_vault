@@ -1,3 +1,28 @@
 .user-container {
 	width: 100vw;
 }
+
+.table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.table th, .table td {
+	height: 10px; /* Высота строки */
+	line-height: 10px; /* Высота строки текста */
+	vertical-align: middle; /* Выравнивание текста по вертикали */
+}
+
+
+.thead th {
+	background-color: #827ffe; /* Темный фон для заголовков */
+	color: white; /* Цвет текста */
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+	background-color: #f8f9fa; /* Светлый фон для нечетных строк */
+}
+
+.table-hover tbody tr:hover {
+	background-color: #e9ecef; /* Цвет фона при наведении */
+}

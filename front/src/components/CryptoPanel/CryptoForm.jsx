@@ -3,6 +3,8 @@ import { createRoundKey, createRSAKey, decryptMessage, encryptMessage, fetchKeys
 import '../styles/CryptoForm.css'
 
 const CryptoForm = ({ algorithmId }) => {
+	const arrBits = [1024, 2048, 4096, 8192, 16834]
+	const [bits, setBits] = useState('');
 	const [text, setText] = useState('');
 	const [messages, setMessages] = useState([]);
 	const [keys, setKeys] = useState([]);
@@ -18,6 +20,7 @@ const CryptoForm = ({ algorithmId }) => {
 			setKeys(keyData);
 		} catch (error) {
 			setErrorMessage(error.message || 'Ошибка при получении ключей');
+			setTimeout(() => setErrorMessage(''), 3000);
 		}
 	};
 
@@ -29,6 +32,7 @@ const CryptoForm = ({ algorithmId }) => {
 			setMessages(mesData);
 		} catch (error) {
 			setErrorMessage(error.message || 'Ошибка при получении сообщений');
+			setTimeout(() => setErrorMessage(''), 3000);
 		}
 	};
 
@@ -44,6 +48,7 @@ const CryptoForm = ({ algorithmId }) => {
 			return response.encryptedText;
 		} catch (error) {
 			setErrorMessage(error.message || 'Ошибка при шифровании');
+			setTimeout(() => setErrorMessage(''), 3000);
 			return null; // Возвращаем null в случае ошибки
 		}
 	};
@@ -59,6 +64,7 @@ const CryptoForm = ({ algorithmId }) => {
 			return response.decryptedMessage;
 		} catch (error) {
 			setErrorMessage(error.message || 'Ошибка при шифровании');
+			setTimeout(() => setErrorMessage(''), 3000);
 			return null; // Возвращаем null в случае ошибки
 		}
 	};
@@ -85,12 +91,13 @@ const CryptoForm = ({ algorithmId }) => {
 			setIsSelectDisabled(false)
 			const token = localStorage.getItem('authToken');
 			const userId = localStorage.getItem('userId');
-			const newKeyId = await createRSAKey(userId, 1024, token)
+			const newKeyId = await createRSAKey(userId, bits, token)
 			localStorage.setItem('encryptedKeyId', newKeyId.id);
 			getKeys();
 			setKeyInput(newKeyId.publicKey)
 		} catch (error) {
 			setErrorMessage(error.message || 'Ошибка при создании ключа');
+			setTimeout(() => setErrorMessage(''), 3000);
 		}
 	};
 
@@ -106,13 +113,14 @@ const CryptoForm = ({ algorithmId }) => {
 			setKeyInput(newKeyId.roundKeys)
 		} catch (error) {
 			setErrorMessage(error.message || 'Ошибка при создании ключа');
+			setTimeout(() => setErrorMessage(''), 3000);
 		}
 	};
 
-	useEffect(() => {
-		console.log("isSelectDisabled изменено на:", isSelectDisabled);
-	}, [isSelectDisabled]); // Логируем состояние при изменении
-
+const handleSelectBits = (event) => {
+	const selectedBits = event.target.value;
+	setBits(Number(selectedBits));
+}
 
 
 	useEffect(() => {
@@ -189,7 +197,6 @@ const CryptoForm = ({ algorithmId }) => {
 					{messages.map((elem, index) => (
 						<option key={index} value={index}>
 							{elem.encryptedText}
-							{elem.id}
 						</option>
 					))}
 				</select>
@@ -201,7 +208,7 @@ const CryptoForm = ({ algorithmId }) => {
 						value="">Выберите ключ</option>
 					{keys.map(elem => (
 						<option key={elem.id} value={elem.id}>
-							{elem.roundKeys || elem.publicKey}
+							{algorithmId == 1 ? elem.roundKeys : elem.publicKey}
 						</option>
 					))}
 				</select>
@@ -220,13 +227,20 @@ const CryptoForm = ({ algorithmId }) => {
 							></textarea>
 
 							<button className='sign-button'
-								onClick={handleCreateRoundKey}>Создать ключ</button> {/* Пример для алгоритма 2 */}
+								onClick={handleCreateRoundKey}>Создать ключ</button> 
 
 						</div>
 					) : (
 						<div className='key-container'>
+							<select className='input-bits' onChange={handleSelectBits}>
+								<option className="def-item">Битность ключа</option>
+							{arrBits.map((elem, index) => {
+								return <option key={index} 
+									value={elem}>{elem}</option>}
+							)}	
+							</select>
 							<button className='sign-button'
-								onClick={handleCreateRSA}>Создать ключ</button> {/* Пример для алгоритма 1 */}
+								onClick={handleCreateRSA}>Создать ключ</button> 
 							<textarea
 								className="key-textarea"
 								value={keyInput}

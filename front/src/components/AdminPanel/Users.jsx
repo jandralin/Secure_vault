@@ -26,7 +26,7 @@ const Users = () => {
 
   return (
     <div className="user-container mt-5">
-      <h3 className="text-center mb-3">Список пользователей</h3>
+      <h3 className="header">СПИСОК ПОЛЬЗОВАТЕЛЕЙ</h3>
 
       {/* Вывод ошибки */}
       {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
@@ -34,7 +34,7 @@ const Users = () => {
       {/* Таблица пользователей */}
       {users.length > 0 ? (
         <table className="table table-striped table-hover">
-          <thead className="thead-dark">
+          <thead className="thead">
             <tr>
               <th>ID</th>
               <th>Email</th>

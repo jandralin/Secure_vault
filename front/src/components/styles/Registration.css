@@ -1,15 +1,14 @@
-.container {
-	width: 600px;
-	height: 100%;
+.registr-container{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 40px;
 }
 
 form {
-	margin-top: 10px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 }
 
-button {
-	margin-top: 20px;
-}

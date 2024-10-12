@@ -96,7 +96,7 @@ export const decryptMessage = async (userId, encryptionKeyId, message, algorithm
 };
 
 
-export const createRSAKey = async (userId, bits, token) => {
+export const createRSAKey = async (userId, bits = 1024, token) => {
   try {
     const response = await api.post('/keys/create/rsa', {
       userId,
@@ -142,22 +142,6 @@ export const signText = async (text, token) => {
 			responseType: 'blob',
     });
     // console.log(response.data);
-    return response.data;
-  } catch (error) {
-    throw error.response ? error.response.data : new Error('Network Error');
-  }
-};
-
-export const verify = async (formData, token) => {
-  try {
-    const response = await api.post('/verify', {
-      formData
-    }, {
-      headers: {
-        'Authorization': `Bearer ${token}`, // Добавляем токен в заголовок
-				'Content-Type': 'multipart/form-data',
-      },
-    });
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : new Error('Network Error');

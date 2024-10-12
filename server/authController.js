@@ -3,6 +3,7 @@ const { StribogCtx, stribog } = require('./ctypto_algorithm/stribog/stribog')
 const { validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
 require('dotenv').config();
+const sendEmail = require('./sendEmail')
 const crypto = require('crypto'); // Импортируем библиотеку для генерации соли
 
 
@@ -17,7 +18,6 @@ const generateAccessToken = (id, role) => {
 	}
 	return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '24h' })
 }
-
 
 class authController {
 	async registration(req, res) {
@@ -43,6 +43,8 @@ class authController {
 				email: email,
 				password: hashPassword,
 				salt: salt,
+				verificationCode: 0,
+				verificationCodeExpiry: 0
 				// role: 'ADMIN'
 			})
 			return res.json({ message: 'user created' })
@@ -70,10 +72,15 @@ class authController {
 			if (Buffer.compare(Buffer.from(hashPassword), Buffer.from(user.password)) !== 0) {
 				return res.status(400).json({ message: 'Incorrect password' });
 			}
-			const token = generateAccessToken(user.id, user.role)
-			const redirectUrl = getRedirectUrlByRole(user.role);
-      return res.json({ token, redirectUrl });
-			// return res.json({ token });
+
+			try {
+				console.log('User found, proceeding to send verification code:', user.email);
+				await sendVerificationCode(user);
+				return res.json({ message: `Код отправлен на почту: ${user.email}` });
+		} catch (error) {
+				return res.status(500).json({ message: 'Error sending verification code' });
+		}
+		
 		} catch (e) {
 			res.status(400).json({ message: 'login error' }); // Возвращаем ошибку
 		}
@@ -88,7 +95,42 @@ class authController {
 			res.status(500).json({ error: e.message }); // Возвращаем ошибку
 		}
 	}
+
+	async verifyCode(req, res) {
+    const { email, code } = req.body;
+    const user = await User.findOne({ where: { email } });
+
+    if (!user) {
+        return res.status(400).json({ message: 'User not found' });
+    }
+
+    if (user.verificationCode !== code || Date.now() > user.verificationCodeExpiry) {
+        return res.status(400).json({ message: 'Invalid or expired code' });
+    }
+
+    // Код верен, создаем токен
+   		const token = generateAccessToken(user.id, user.role)
+			const redirectUrl = getRedirectUrlByRole(user.role);
+      return res.json({ token, redirectUrl });
 }
 
+}
+
+const sendVerificationCode = async (user) => {
+	console.log('Inside sendVerificationCode for user:', user.email);
+	try {
+			const code = Math.floor(100000 + Math.random() * 900000).toString();
+			user.verificationCode = code;
+			user.verificationCodeExpiry = Date.now() + 10 * 60 * 1000;
+
+			await user.save(); // Сохраняем обновленного пользователя
+
+			await sendEmail(user.email, 'Ваш код подтверждения', `Ваш код: ${code}`);
+			console.log('Verification code sent:', code);
+	} catch (error) {
+			console.error('Error in sendVerificationCode:', error);
+			throw new Error('Ошибка при отправке кода подтверждения');
+	}
+};
 
 module.exports = new authController()

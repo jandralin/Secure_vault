@@ -5,9 +5,10 @@ import '../styles/Admin.css'
 
 const Admin = () => {
 	return (
-		<div className='admin-container'>
-		<h3 className='header'>Панель администратора</h3>
-		<nav className="navbar navbar-expand-lg navbar-dark bg-dark"> 
+		<div className='navbar'>
+		<div className="navbar-container">
+		<a className='navbar-brand'>Панель администратора</a>
+		<div className="navbar navbar-expand-lg navbar-dark nav-color"> 
 				<div className="container-fluid">
 						<div className="collapse navbar-collapse" id="navbarNav">
 								<ul className="navbar-nav me-auto"> 
@@ -25,8 +26,11 @@ const Admin = () => {
 								</ul>
 						</div>
 				</div>
-		</nav>
-		<Outlet />
+		</div>
+		
+		</div><div className="d-flex justify-content-center align-items-center admin">
+			<Outlet/>
+		</div>
 </div>
 )};
 
