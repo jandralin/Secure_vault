@@ -1,0 +1,98 @@
+.crypto-container {
+	margin-top: 20px;
+	padding: 20px 40px;
+}
+
+.text-container, .key-container {
+	display: flex;
+	flex-direction: row;
+	gap: 30px;
+}
+
+.text, .key-textarea {
+		width: 100%; /* Устанавливает ширину на 100% родительского элемента */
+    height: 200px; /* Устанавливает фиксированную высоту */
+    resize: none; /* Убирает возможность изменения размера */
+    border: 1px solid #e6e6e6; /* Граница */
+    border-radius: 5px; /* Без закруглений */
+    padding: 20px; /* Отступы внутри */
+    font-size: 16px; /* Размер шрифта */
+    color: #403866; /* Цвет текста */
+		font-weight: 500;
+    background-color: #e6e6e6; /* Цвет фона */
+}
+
+.text:focus, .key-textarea:focus, .input-bits:focus  {
+	outline: none; /* Убирает контур */
+}
+
+.text::placeholder, .key-textarea::placeholder  {
+	color: #8f8fa1; /* Цвет текста */
+}
+
+.sign-button {
+		height: 50%;
+	 	background-color: #827ffe; /* Основной цвет фона */
+    color: #ffffff; /* Цвет текста */
+    border: none; /* Убирает стандартную границу */
+    border-radius: 5px; /* Скругление углов */
+    padding: 10px 20px; /* Вертикальные и горизонтальные отступы */
+		font-weight: 500;
+    font-size: 16px; /* Размер шрифта */
+    cursor: pointer; /* Указывает, что элемент кликабельный */
+    transition: background-color 0.3s ease; /* Плавный переход цвета фона */
+}
+.sign-button:hover {
+	background-color: #403866;
+}
+
+.settings-container {
+	width: 60%;
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+}
+
+.message-select, .key-select {
+	padding: 10px;
+	font-size: 16px; /* Размер шрифта */
+    color: #403866; /* Цвет текста */
+		font-weight: 500;
+		overflow: hidden;
+}
+
+.message-select:focus, .key-select:focus {
+	outline: none; /* Убирает контур */
+	overflow: hidden;
+}
+
+.def-item {
+	display: none;
+	position: absolute;
+	background-color: #e6e6e6;
+	width: 100%;
+	border: 1px solid #e6e6e6;
+	border-radius: 0px;
+	z-index: 1000;
+}
+
+.key-textarea {
+	width: 81%;
+}
+
+.container-func {
+	display: flex;
+	flex-direction: row;
+	gap: 80px
+}
+
+.input-bits {
+	/* margin-top: 20px; */
+	width: 180px;
+	height: 40px;
+	padding: 0px 15px;
+	color: #403866; /* Цвет текста */
+		font-weight: 500;
+}

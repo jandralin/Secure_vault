@@ -1,0 +1,60 @@
+.navbar {
+	margin: 0;
+
+  padding: 0;
+}
+
+.navbar-container {
+	background-color: #e6e6e6;
+	padding: 0px 80px;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.navbar-brand {
+	color: #403866;
+	font-weight: 700;
+	font-size: 30px;
+	text-decoration: none;
+}
+
+.navbar-select {
+	padding: 20px;
+	border: none;
+	border-radius: 0px;
+	background-color: transparent;
+	font-size: 22px;
+	text-align: center;
+	font-weight: 500;
+	color: #403866;
+	height: 90%;
+	cursor: pointer;
+}
+
+.navbar-item {
+	display: none;
+	position: absolute;
+	background-color: #e6e6e6;
+	width: 100%;
+	border: 1px solid #e6e6e6;
+	border-radius: 0px;
+	z-index: 1000;
+	
+}
+.navbar-select:focus {
+	outline: none; /* Убирает контур */
+}
+
+.nav-link {
+	color: #403866;
+	text-decoration: none;
+	font-size: 20px;
+	font-weight: 700;
+}
+
+.error-message {
+	color: #ff4d4d;
+	margin-left: 20px;
+}

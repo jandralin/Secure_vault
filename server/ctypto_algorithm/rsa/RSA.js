@@ -29,7 +29,7 @@ async function generateRSAKeypair(bits) {
 }
 
 // Шифрование
-function encrypt(publicKey, message) {
+function encryptRSA(publicKey, message) {
     const e = new BigInteger(publicKey.e);
     const n = new BigInteger(publicKey.n);
     const m = new BigInteger(forge.util.createBuffer(message).toHex(), 16); // Преобразуем сообщение в число
@@ -39,7 +39,7 @@ function encrypt(publicKey, message) {
 }
 
 // Расшифрование
-function decrypt(privateKey, ciphertext) {
+function decryptRSA(privateKey, ciphertext) {
     const d = new BigInteger(privateKey.d);
     const n = new BigInteger(privateKey.n);
     const c = new BigInteger(ciphertext, 16); // Преобразуем шифротекст из шестнадцатичного формата в число
@@ -48,17 +48,19 @@ function decrypt(privateKey, ciphertext) {
     return forge.util.hexToBytes(m.toString(16)); // Преобразуем обратно в строку
 }
 
-// Пример использования
-(async () => {
-    const bits = 16384;
-    const keypair = await generateRSAKeypair(bits);
+module.exports = {generateRSAKeypair, encryptRSA, decryptRSA}
 
-    const message = 'Hello, RSA!';
-    console.log('Исходное сообщение:', message);
+// // Пример использования
+// (async () => {
+//     const bits = 1024;
+//     const keypair = await generateRSAKeypair(bits);
 
-    const encryptedMessage = encrypt(keypair.publicKey, message);
-    console.log('Зашифрованное сообщение:', encryptedMessage);
+//     const message = 'Hello, RSA!';
+//     console.log('Исходное сообщение:', message);
 
-    const decryptedMessage = decrypt(keypair.privateKey, encryptedMessage);
-    console.log('Расшифрованное сообщение:', decryptedMessage);
-})();
+//     const encryptedMessage = encrypt(keypair.publicKey, message);
+//     console.log('Зашифрованное сообщение:', encryptedMessage);
+
+//     const decryptedMessage = decrypt(keypair.privateKey, encryptedMessage);
+//     console.log('Расшифрованное сообщение:', decryptedMessage);
+// })();

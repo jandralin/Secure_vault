@@ -2,12 +2,12 @@ import React from 'react';
 import Auth from './components/Auth';
 import './components/styles/App.css'
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Crypto from './components/Crypto';
-import Admin from './components/Admin';
+import Crypto from './components/CryptoPanel/Crypto';
+import Admin from './components/AdminPanel/Admin';
 import {PrivateRoute }from './components/PrivateRoute';
 import Unauthorized from './components/Unauthorized';
-import Registration from './components/Registration';
-import Users from './components/Users';
+import Registration from './components/AdminPanel/Registration';
+import Users from './components/AdminPanel/Users';
 import { AuthRoute } from './components/PrivateRoute';
 
 const App = () => {
